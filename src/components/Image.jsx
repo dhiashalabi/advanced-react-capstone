@@ -1,12 +1,12 @@
 import React, { useContext } from "react"
 import PropTypes from "prop-types"
+
 import { Context } from "../Context"
 import useHover from "../hooks/useHover"
 
 function Image({ className, img }) {
-    // const [hovered, setHovered] = useState(false)
     const [hovered, ref] = useHover()
-    const { toggleFavorite, addToCart, removeFromCart, cartItems } = useContext(Context)
+    const { toggleFavorite, addToCart, cartItems, removeFromCart } = useContext(Context)
 
     function heartIcon() {
         if (img.isFavorite) {
@@ -17,7 +17,8 @@ function Image({ className, img }) {
     }
 
     function cartIcon() {
-        if (cartItems.some(item => item.id === img.id)) {
+        const alreadyInCart = cartItems.some(item => item.id === img.id)
+        if (alreadyInCart) {
             return <i className="ri-shopping-cart-fill cart" onClick={() => removeFromCart(img.id)}></i>
         } else if (hovered) {
             return <i className="ri-add-circle-line cart" onClick={() => addToCart(img)}></i>
